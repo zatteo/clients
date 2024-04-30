@@ -221,14 +221,12 @@ export class SyncService implements SyncServiceAbstraction {
           const remoteCipher = await this.apiService.getFullCipherDetails(notification.id);
           if (remoteCipher != null) {
             await this.cipherService.upsert(new CipherData(remoteCipher));
-            this.messagingService.send("syncedUpsertedCipher", { cipherId: notification.id });
             return this.syncCompleted(true);
           }
         }
       } catch (e) {
         if (e != null && e.statusCode === 404 && isEdit) {
           await this.cipherService.delete(notification.id);
-          this.messagingService.send("syncedDeletedCipher", { cipherId: notification.id });
           return this.syncCompleted(true);
         }
       }
@@ -240,7 +238,6 @@ export class SyncService implements SyncServiceAbstraction {
     this.syncStarted();
     if (await this.stateService.getIsAuthenticated()) {
       await this.cipherService.delete(notification.id);
-      this.messagingService.send("syncedDeletedCipher", { cipherId: notification.id });
       return this.syncCompleted(true);
     }
     return this.syncCompleted(false);
@@ -258,7 +255,6 @@ export class SyncService implements SyncServiceAbstraction {
           const remoteSend = await this.sendApiService.getSend(notification.id);
           if (remoteSend != null) {
             await this.sendService.upsert(new SendData(remoteSend));
-            this.messagingService.send("syncedUpsertedSend", { sendId: notification.id });
             return this.syncCompleted(true);
           }
         }
@@ -273,7 +269,6 @@ export class SyncService implements SyncServiceAbstraction {
     this.syncStarted();
     if (await this.stateService.getIsAuthenticated()) {
       await this.sendService.delete(notification.id);
-      this.messagingService.send("syncedDeletedSend", { sendId: notification.id });
       this.syncCompleted(true);
       return true;
     }
