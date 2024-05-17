@@ -22,6 +22,8 @@ class AutofillOverlayList extends AutofillOverlayPageElement {
   private cipherListScrollDebounceTimeout: number | NodeJS.Timeout;
   private currentCipherIndex = 0;
   private previouslyFilledCipherName: string;
+  private focusedFieldId: string;
+  private focusedFieldValue: string;
   private readonly showCiphersPerPage = 6;
   private readonly overlayListWindowMessageHandlers: OverlayListWindowMessageHandlers = {
     initAutofillOverlayList: ({ message }) => this.initAutofillOverlayList(message),
@@ -55,10 +57,13 @@ class AutofillOverlayList extends AutofillOverlayPageElement {
     authStatus,
     ciphers,
     previouslyFilledCipherName,
+    focusedFieldId,
+    focusedFieldValue,
   }: InitAutofillOverlayListMessage) {
     console.log(`🌤️ 6b (AutofillOverlayList initAutofillOverlayList) : la liste s'initialise`);
     this.previouslyFilledCipherName = previouslyFilledCipherName;
-
+    this.focusedFieldId = focusedFieldId;
+    this.focusedFieldValue = focusedFieldValue;
     const linkElement = this.initOverlayPage("button", styleSheetUrl, translations);
 
     const themeClass = `theme_${theme}`;
@@ -147,6 +152,8 @@ class AutofillOverlayList extends AutofillOverlayPageElement {
     // Affichage
     const infoContent = globalThis.document.createElement("div");
     infoContent.innerHTML = "previouslyFilledCipherName : " + this.previouslyFilledCipherName;
+    infoContent.innerHTML += "<br>focusedFieldId : " + this.focusedFieldId;
+    infoContent.innerHTML += "<br>focusedFieldValue : " + this.focusedFieldValue;
     this.overlayListContainer.appendChild(infoContent);
 
     this.overlayListContainer.appendChild(this.ciphersList);

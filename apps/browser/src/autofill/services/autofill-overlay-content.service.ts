@@ -675,6 +675,9 @@ class AutofillOverlayContentService implements AutofillOverlayContentServiceInte
   private async updateMostRecentlyFocusedField(
     formFieldElement: ElementWithOpId<FormFieldElement>,
   ) {
+    const id = formFieldElement.id;
+    // @ts-expect-error POC
+    const value = formFieldElement.value;
     this.mostRecentlyFocusedField = formFieldElement;
     const { paddingRight, paddingLeft } = globalThis.getComputedStyle(formFieldElement);
     const { width, height, top, left } =
@@ -682,6 +685,8 @@ class AutofillOverlayContentService implements AutofillOverlayContentServiceInte
     this.focusedFieldData = {
       focusedFieldStyles: { paddingRight, paddingLeft },
       focusedFieldRects: { width, height, top, left },
+      focusedFieldId: id,
+      focusedFieldValue: value,
     };
 
     // FIXME: Verify that this floating promise is intentional. If it is, add an explanatory comment and ensure there is proper error handling.

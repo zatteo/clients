@@ -15,6 +15,8 @@ type InitAutofillOverlayListMessage = OverlayListMessage & {
   translations: Record<string, string>;
   ciphers?: OverlayCipherData[];
   previouslyFilledCipherName?: string;
+  focusedFieldId?: string;
+  focusedFieldValue?: string;
 };
 
 type OverlayListWindowMessageHandlers = {

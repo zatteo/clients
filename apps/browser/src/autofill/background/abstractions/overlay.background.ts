@@ -42,6 +42,8 @@ type OverlayPortMessage = {
 type FocusedFieldData = {
   focusedFieldStyles: Partial<CSSStyleDeclaration>;
   focusedFieldRects: Partial<DOMRect>;
+  focusedFieldId?: string;
+  focusedFieldValue?: string;
 };
 
 type OverlayCipherData = {

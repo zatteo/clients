@@ -725,6 +725,8 @@ class OverlayBackground implements OverlayBackgroundInterface {
       ciphers: isOverlayListPort ? await this.getOverlayCipherData() : null,
       // que je reinjecte lors de l'initialisation
       previouslyFilledCipherName: this.previouslyFilledCipherName,
+      focusedFieldId: this.focusedFieldData.focusedFieldId,
+      focusedFieldValue: this.focusedFieldData.focusedFieldValue,
     });
     this.updateOverlayPosition({
       overlayElement: isOverlayListPort
