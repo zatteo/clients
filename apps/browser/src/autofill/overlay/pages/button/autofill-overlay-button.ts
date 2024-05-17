@@ -28,6 +28,8 @@ class AutofillOverlayButton extends AutofillOverlayPageElement {
   constructor() {
     super();
 
+    console.log(`🌤️ 5a (AutofillOverlayButton constructor) : le bouton se créé`);
+
     this.buttonElement = globalThis.document.createElement("button");
 
     this.setupGlobalListeners(this.overlayButtonWindowMessageHandlers);
@@ -53,6 +55,7 @@ class AutofillOverlayButton extends AutofillOverlayPageElement {
     styleSheetUrl,
     translations,
   }: InitAutofillOverlayButtonMessage) {
+    console.log(`🌤️ 6a (AutofillOverlayButton initAutofillOverlayButton) : le bouton s'initialise`);
     const linkElement = this.initOverlayPage("button", styleSheetUrl, translations);
 
     this.buttonElement.tabIndex = -1;

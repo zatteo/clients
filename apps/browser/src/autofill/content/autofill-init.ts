@@ -177,6 +177,8 @@ class AutofillInit implements AutofillInitInterface {
    * removed.
    */
   private removeAutofillOverlay(message?: AutofillExtensionMessage) {
+    return; // pour éviter que le menu se referme et empêche son inspection
+
     if (message?.data?.forceCloseOverlay) {
       this.autofillOverlayContentService?.removeAutofillOverlay();
       return;

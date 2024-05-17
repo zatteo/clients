@@ -49,6 +49,7 @@ class AutofillOverlayPageElement extends HTMLElement {
    * @param message - The message to post
    */
   protected postMessageToParent(message: AutofillOverlayPageElementWindowMessage) {
+    console.log(`💌 L'élément ${this.tagName} envoie une commande ${message.command}`);
     if (!this.messageOrigin) {
       return;
     }
@@ -73,6 +74,8 @@ class AutofillOverlayPageElement extends HTMLElement {
    * @param windowMessageHandlers - The window message handlers to use
    */
   protected setupGlobalListeners(windowMessageHandlers: WindowMessageHandlers) {
+    console.log(`⚙️ L'élément ${this.tagName} enregistre ses handlers`);
+
     this.windowMessageHandlers = windowMessageHandlers;
 
     globalThis.addEventListener(EVENTS.MESSAGE, this.handleWindowMessage);
@@ -86,6 +89,9 @@ class AutofillOverlayPageElement extends HTMLElement {
    * @param event - The window message event
    */
   private handleWindowMessage = (event: MessageEvent) => {
+    console.log(
+      `💌 L'élément ${this.tagName} a reçu une commande ${event.data?.command} de la parent window`,
+    );
     if (!this.windowMessageHandlers) {
       return;
     }

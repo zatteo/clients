@@ -72,6 +72,7 @@ class OverlayBackground implements OverlayBackgroundInterface {
     addEditCipherSubmitted: () => this.updateOverlayCiphers(),
     deletedCipher: () => this.updateOverlayCiphers(),
   };
+  // là on peut rajouter des handlers pour le bouton
   private readonly overlayButtonPortMessageHandlers: OverlayButtonPortMessageHandlers = {
     overlayButtonClicked: ({ port }) => this.handleOverlayButtonClicked(port),
     closeAutofillOverlay: ({ port }) => this.closeOverlay(port),
@@ -79,6 +80,7 @@ class OverlayBackground implements OverlayBackgroundInterface {
     overlayPageBlurred: () => this.checkOverlayListFocused(),
     redirectOverlayFocusOut: ({ message, port }) => this.redirectOverlayFocusOut(message, port),
   };
+  // là on peut rajouter des handlers pour la liste
   private readonly overlayListPortMessageHandlers: OverlayListPortMessageHandlers = {
     checkAutofillOverlayButtonFocused: () => this.checkOverlayButtonFocused(),
     forceCloseAutofillOverlay: ({ port }) => this.closeOverlay(port, true),
@@ -145,6 +147,7 @@ class OverlayBackground implements OverlayBackgroundInterface {
       return;
     }
 
+    // là on construit la map avec les id temporaires
     this.overlayLoginCiphers = new Map();
     const ciphersViews = (await this.cipherService.getAllDecryptedForUrl(currentTab.url)).sort(
       (a, b) => this.cipherService.sortCiphersByLastUsedThenName(a, b),
@@ -236,11 +239,16 @@ class OverlayBackground implements OverlayBackgroundInterface {
       return;
     }
 
+    // là on récupère le cipher complet grâce à l'id temporaire
     const cipher = this.overlayLoginCiphers.get(overlayCipherId);
 
     if (await this.autofillService.isPasswordRepromptRequired(cipher, sender.tab)) {
       return;
     }
+
+    console.log(
+      `🌤️ 8 (OverlayBackground fillSelectedOverlayListItem) : je récupère le cipher complet grâce à l'id temporaire et je déclenche l'autofill`,
+    );
     const totpCode = await this.autofillService.doAutoFill({
       tab: sender.tab,
       cipher: cipher,
@@ -665,6 +673,9 @@ class OverlayBackground implements OverlayBackgroundInterface {
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void,
   ) => {
+    console.log(
+      `💌 (OverlayBackground handleExtensionMessage) : réception d'un message ${message?.command} provenant de l'extension`,
+    );
     const handler: CallableFunction | undefined = this.extensionMessageHandlers[message?.command];
     if (!handler) {
       return;
@@ -726,6 +737,9 @@ class OverlayBackground implements OverlayBackgroundInterface {
     message: OverlayBackgroundExtensionMessage,
     port: chrome.runtime.Port,
   ) => {
+    console.log(
+      `💌 (OverlayBackground handleExtensionMessage) : réception d'un message ${message?.command} provenant de l'inline menu`,
+    );
     const command = message?.command;
     let handler: CallableFunction | undefined;
 

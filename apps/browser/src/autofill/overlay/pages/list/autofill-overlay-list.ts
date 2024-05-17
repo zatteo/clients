@@ -32,6 +32,8 @@ class AutofillOverlayList extends AutofillOverlayPageElement {
   constructor() {
     super();
 
+    console.log(`🌤️ 5b (AutofillOverlayList constructor) : la liste se créée`);
+
     this.setupOverlayListGlobalListeners();
   }
 
@@ -52,6 +54,7 @@ class AutofillOverlayList extends AutofillOverlayPageElement {
     authStatus,
     ciphers,
   }: InitAutofillOverlayListMessage) {
+    console.log(`🌤️ 6b (AutofillOverlayList initAutofillOverlayList) : la liste s'initialise`);
     const linkElement = this.initOverlayPage("button", styleSheetUrl, translations);
 
     const themeClass = `theme_${theme}`;
@@ -115,6 +118,10 @@ class AutofillOverlayList extends AutofillOverlayPageElement {
    * @param ciphers - The ciphers to display in the overlay list.
    */
   private updateListItems(ciphers: OverlayCipherData[]) {
+    console.log(
+      "🌤️ 7 (AutofillOverlayList updateListItems) : la liste a reçu des ciphers et les affiche",
+      ciphers,
+    );
     this.ciphers = ciphers;
     this.currentCipherIndex = 0;
     if (this.overlayListContainer) {

@@ -86,7 +86,12 @@ class AutofillOverlayContentService implements AutofillOverlayContentServiceInte
     formFieldElement: ElementWithOpId<FormFieldElement>,
     autofillFieldData: AutofillField,
   ) {
+    console.log(
+      `🌤️ 2 (setupAutofillOverlayListenerOnField) : on vérifie si le champ ${autofillFieldData.htmlID} nous intéresse`,
+    );
+
     if (this.isIgnoredField(autofillFieldData) || this.formFieldElements.has(formFieldElement)) {
+      console.log(`❌`);
       return;
     }
 
@@ -95,6 +100,8 @@ class AutofillOverlayContentService implements AutofillOverlayContentServiceInte
     if (!this.autofillOverlayVisibility) {
       await this.getAutofillOverlayVisibility();
     }
+
+    console.log(`✅ On ajoute des event listeners sur ${autofillFieldData.htmlID}`);
 
     this.setupFormFieldElementEventListeners(formFieldElement);
 
@@ -494,6 +501,7 @@ class AutofillOverlayContentService implements AutofillOverlayContentServiceInte
    * @param formFieldElement - The form field element that triggered the focus event.
    */
   private async triggerFormFieldFocusedAction(formFieldElement: ElementWithOpId<FormFieldElement>) {
+    console.log(`🌤️ 3 (triggerFormFieldFocusedAction) : j'arrive dans le handler de focus`);
     if (this.isCurrentlyFilling) {
       return;
     }
@@ -767,6 +775,9 @@ class AutofillOverlayContentService implements AutofillOverlayContentServiceInte
    * to create the element if it already exists in the DOM.
    */
   private createAutofillOverlayButton() {
+    console.log(
+      `🌤️ 4a (createAutofillOverlayButton) : je créé une iframe AutofillOverlayButtonIframe qui contient le web component AutofillOverlayButton`,
+    );
     if (this.overlayButtonElement) {
       return;
     }
@@ -796,6 +807,9 @@ class AutofillOverlayContentService implements AutofillOverlayContentServiceInte
    * to create the element if it already exists in the DOM.
    */
   private createAutofillOverlayList() {
+    console.log(
+      "🌤️ 4b (createAutofillOverlayList) : je créé une iframe AutofillOverlayListIframe qui contient le web component AutofillOverlayList",
+    );
     if (this.overlayListElement) {
       return;
     }

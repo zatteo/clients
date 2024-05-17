@@ -70,6 +70,7 @@ async function sendExtensionMessage(
   command: string,
   options: Record<string, any> = {},
 ): Promise<any | void> {
+  console.log(`💌 Envoi d'un message à l'extension`, command);
   return new Promise((resolve) => {
     chrome.runtime.sendMessage(Object.assign({ command }, options), (response) => {
       if (chrome.runtime.lastError) {

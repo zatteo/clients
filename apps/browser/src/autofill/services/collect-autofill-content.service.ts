@@ -68,6 +68,8 @@ class CollectAutofillContentService implements CollectAutofillContentServiceInte
    * @public
    */
   async getPageDetails(): Promise<AutofillPageDetails> {
+    console.log("🌤️ 1 (getPageDetails) : on récupère tous les champs de la page");
+
     if (!this.mutationObserver) {
       this.setupMutationObserver();
     }
