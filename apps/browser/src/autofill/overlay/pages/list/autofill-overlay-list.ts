@@ -21,6 +21,7 @@ class AutofillOverlayList extends AutofillOverlayPageElement {
   private cipherListScrollIsDebounced = false;
   private cipherListScrollDebounceTimeout: number | NodeJS.Timeout;
   private currentCipherIndex = 0;
+  private previouslyFilledCipherName: string;
   private readonly showCiphersPerPage = 6;
   private readonly overlayListWindowMessageHandlers: OverlayListWindowMessageHandlers = {
     initAutofillOverlayList: ({ message }) => this.initAutofillOverlayList(message),
@@ -53,8 +54,11 @@ class AutofillOverlayList extends AutofillOverlayPageElement {
     theme,
     authStatus,
     ciphers,
+    previouslyFilledCipherName,
   }: InitAutofillOverlayListMessage) {
     console.log(`🌤️ 6b (AutofillOverlayList initAutofillOverlayList) : la liste s'initialise`);
+    this.previouslyFilledCipherName = previouslyFilledCipherName;
+
     const linkElement = this.initOverlayPage("button", styleSheetUrl, translations);
 
     const themeClass = `theme_${theme}`;
@@ -139,6 +143,11 @@ class AutofillOverlayList extends AutofillOverlayPageElement {
     globalThis.addEventListener(EVENTS.SCROLL, this.handleCiphersListScrollEvent);
 
     this.loadPageOfCiphers();
+
+    // Affichage
+    const infoContent = globalThis.document.createElement("div");
+    infoContent.innerHTML = "previouslyFilledCipherName : " + this.previouslyFilledCipherName;
+    this.overlayListContainer.appendChild(infoContent);
 
     this.overlayListContainer.appendChild(this.ciphersList);
   }

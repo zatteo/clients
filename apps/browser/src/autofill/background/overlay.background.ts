@@ -57,6 +57,7 @@ class OverlayBackground implements OverlayBackgroundInterface {
   private focusedFieldData: FocusedFieldData;
   private overlayPageTranslations: Record<string, string>;
   private iconsServerUrl: string;
+  private previouslyFilledCipherName: string;
   private readonly extensionMessageHandlers: OverlayBackgroundExtensionMessageHandlers = {
     openAutofillOverlay: () => this.openOverlay(false),
     autofillOverlayElementClosed: ({ message }) => this.overlayElementClosed(message),
@@ -260,6 +261,9 @@ class OverlayBackground implements OverlayBackgroundInterface {
     if (totpCode) {
       this.platformUtilsService.copyToClipboard(totpCode);
     }
+
+    // lors de l'autofill, je retiens le nom du cipher autofilled
+    this.previouslyFilledCipherName = cipher.name;
 
     this.overlayLoginCiphers = new Map([[overlayCipherId, cipher], ...this.overlayLoginCiphers]);
   }
@@ -719,6 +723,8 @@ class OverlayBackground implements OverlayBackgroundInterface {
       theme: await firstValueFrom(this.themeStateService.selectedTheme$),
       translations: this.getTranslations(),
       ciphers: isOverlayListPort ? await this.getOverlayCipherData() : null,
+      // que je reinjecte lors de l'initialisation
+      previouslyFilledCipherName: this.previouslyFilledCipherName,
     });
     this.updateOverlayPosition({
       overlayElement: isOverlayListPort
